@@ -4,5 +4,12 @@
   "main": "index.js",
   "repository": "https://github.com/julioolvr/telegram-content-extractor",
   "author": "Julio Olivera <julio.olvr@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint **/*.js"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2"
+  }
 }
