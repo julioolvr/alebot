@@ -5,6 +5,17 @@ const Telegraf = require('telegraf');
 const extractors = require('./lib/extractors');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+const secret = `bot/${Math.random()
+  .toString(36)
+  .slice(2)}`;
+
+const port = 3000;
+
+if (process.env.NOW_URL) {
+  bot.telegram.setWebhook(`${process.env.NOW_URL}/${secret}`);
+  bot.webhookReply = false;
+}
+
 bot.on('text', async ctx => {
   const extractor = extractors.find(extractor =>
     extractor.matches(ctx.message)
@@ -17,4 +28,8 @@ bot.on('text', async ctx => {
   ctx.replyWithVideo({ source: result });
 });
 
-bot.startPolling();
+if (process.env.NOW_URL) {
+  bot.startWebhook(`/${secret}`, null, port);
+} else {
+  bot.startPolling();
+}
