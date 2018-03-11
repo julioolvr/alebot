@@ -5,15 +5,16 @@ const Telegraf = require('telegraf');
 const extractors = require('./lib/extractors');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.on('text', ctx => {
+bot.on('text', async ctx => {
   const extractor = extractors.find(extractor =>
     extractor.matches(ctx.message)
   );
 
   if (!extractor) return;
 
-  const result = extractor.extract(ctx.message);
-  ctx.reply(result);
+  // TODO: Each extractor can reply in different ways
+  const result = await extractor.extract(ctx.message);
+  ctx.replyWithVideo({ source: result });
 });
 
 bot.startPolling();

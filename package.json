@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "dotenv": "^5.0.1",
+    "got": "^8.3.0",
     "telegraf": "^3.19.0",
     "url-parse": "^1.2.0"
   }
