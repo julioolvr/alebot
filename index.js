@@ -1,6 +1,19 @@
+require('dotenv').config();
+
+const Telegraf = require('telegraf');
+
 const extractors = require('./lib/extractors');
 
-extractors.forEach(extractor => {
-  console.log('matches?', extractor.matches('something'));
-  console.log('extracted', extractor.extract('sdqqd'));
+const bot = new Telegraf(process.env.BOT_TOKEN);
+bot.on('text', ctx => {
+  const extractor = extractors.find(extractor =>
+    extractor.matches(ctx.message)
+  );
+
+  if (!extractor) return;
+
+  const result = extractor.extract(ctx.message);
+  ctx.reply(result);
 });
+
+bot.startPolling();
