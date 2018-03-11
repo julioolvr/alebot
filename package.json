@@ -1,0 +1,8 @@
+{
+  "name": "telegram-content-extractor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/julioolvr/telegram-content-extractor",
+  "author": "Julio Olivera <julio.olvr@gmail.com>",
+  "license": "MIT"
+}
