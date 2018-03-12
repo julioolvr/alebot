@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const Telegraf = require('telegraf');
 
+const log = require('./lib/logger');
 const extractors = require('./lib/extractors');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -16,16 +17,15 @@ if (process.env.NOW_URL) {
   bot.webhookReply = false;
 }
 
-bot.on('text', async ctx => {
+bot.on('text', ctx => {
+  log.debug('Received text message', ctx.message);
   const extractor = extractors.find(extractor =>
     extractor.matches(ctx.message)
   );
 
   if (!extractor) return;
 
-  // TODO: Each extractor can reply in different ways
-  const result = await extractor.extract(ctx.message);
-  ctx.replyWithVideo({ source: result });
+  extractor.process(ctx);
 });
 
 if (process.env.NOW_URL) {
